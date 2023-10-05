@@ -1,0 +1,20 @@
+---
+apiVersion: platform.confluent.io/v1beta1
+kind: Connector
+metadata:
+  name: replicator
+  namespace: dr
+spec:
+  name: replicator
+  class: "io.confluent.connect.replicator.ReplicatorSourceConnector"
+  taskMax: 4
+  configs:
+    topic.whitelist: "topic-in-source"
+    confluent.license: ""
+    confluent.topic.replication.factor: "1"
+    dest.kafka.bootstrap.servers: "kafka.dr.svc.cluster.local:9092"
+    key.converter: "io.confluent.connect.replicator.util.ByteArrayConverter"
+    value.converter: "io.confluent.connect.replicator.util.ByteArrayConverter"
+    header.converter: "io.confluent.connect.replicator.util.ByteArrayConverter"
+    src.consumer.group.id: "replicator"
+    src.kafka.bootstrap.servers: "kafka.dc.svc.cluster.local:9092"
